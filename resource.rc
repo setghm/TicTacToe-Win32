@@ -1,0 +1,45 @@
+#include <Windows.h>
+#include "resource.h"
+
+1	24	"manifest.xml"
+
+RES_FONT	FONT	"GameFont.ttf"
+
+1 VERSIONINFO
+FILEVERSION 1,0,0,0
+PRODUCTVERSION 1,0,0,0
+FILEOS VOS_NT_WINDOWS32
+FILETYPE VFT_APP
+BEGIN
+	BLOCK "StringFileInfo"
+	BEGIN
+		// Inglés de EE. UU.
+		// LangID (0409) - Charset ID (Hexadecimal) (04E4)
+		BLOCK "040904E4"
+		BEGIN
+			VALUE "CompanyName", "SetApps\0"
+			VALUE "FileDescription", "Tic-Tac-Toe game made using the Win32 API\0"
+			VALUE "FileVersion", "1.0\0"
+			VALUE "LegalCopyright", "SetApps (c) 2023\0"
+			VALUE "ProductName", "Tic-Tac-Toe\0"
+			VALUE "ProductVersion", "1.0\0"
+		END
+		// Español (México)
+		// LangID (080A) - Charset ID (Hexadecimal) (04E4)
+		BLOCK "080A04E4"
+		BEGIN
+			VALUE "CompanyName", "SetApps\0"
+			VALUE "FileDescription", "Juego de Tic-Tac-Toe hecho con la API de Windows\0"
+			VALUE "FileVersion", "1.0\0"
+			VALUE "LegalCopyright", "SetApps (c) 2023\0"
+			VALUE "ProductName", "Tic-Tac-Toe\0"
+			VALUE "ProductVersion", "1.0\0"
+		END
+	END
+	
+	BLOCK "VarFileInfo"
+	BEGIN
+		VALUE "Translation", 0x0409, 1252
+		//VALUE "Traducción", 0x080A, 1252
+	END
+END
