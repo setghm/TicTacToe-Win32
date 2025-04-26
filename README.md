@@ -1,6 +1,6 @@
 # TicTacToe Win32
 
-Game made using the Win32 API,  ...
+Game was writen using only the Win32 API
 
 The game looks like this:
 
