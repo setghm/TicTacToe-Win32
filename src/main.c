@@ -1,5 +1,6 @@
 #include "framework.h"
 #include "styles.h"
+#include "resource.h"
 
 extern LRESULT CALLBACK WinProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -8,24 +9,26 @@ int WINAPI WinMain(HINSTANCE hInstance,
                    LPSTR lpCmdLine,
                    int nCmdShow)
 {
-    MSG msg;
-    HWND hWnd;
-    WNDCLASS wc;
-    RECT wrc;
+    HWND hWnd = NULL;
+    WNDCLASSEX wcx = { 0 };
+    RECT wrc = { 0 };
+    MSG msg = { 0 };
 
     /* Create and register window class */
-    wc.style = 0;
-    wc.lpfnWndProc = WinProc;
-    wc.cbClsExtra = 0;
-    wc.cbWndExtra = 0;
-    wc.hInstance = hInstance;
-    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wc.hbrBackground = CreateSolidBrush(COLOR_BG);
-    wc.lpszMenuName = NULL;
-    wc.lpszClassName = APPNAME;
+    wcx.cbSize = sizeof(WNDCLASSEX);
+    wcx.style = CS_HREDRAW | CS_VREDRAW;
+    wcx.lpfnWndProc = WinProc;
+    wcx.cbClsExtra = 0;
+    wcx.cbWndExtra = 0;
+    wcx.hInstance = hInstance;
+    wcx.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APPICON));
+    wcx.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_APPICON));
+    wcx.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wcx.hbrBackground = CreateSolidBrush(COLOR_BG);
+    wcx.lpszMenuName = NULL;
+    wcx.lpszClassName = APPNAME;
 
-    if (!RegisterClass(&wc)) {
+    if (!RegisterClassEx(&wcx)) {
         MessageBox(0, "Can't register window class", 0, MB_ICONERROR);
         exit(EXIT_FAILURE);
     }

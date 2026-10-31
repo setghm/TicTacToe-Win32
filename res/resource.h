@@ -8,7 +8,8 @@
 #define UI_LABELP1		113
 #define UI_LABELP2		114
 
-#define IDR_FONT_GAME	1001
+#define IDI_APPICON		1001
+#define IDR_FONT_GAME	1101
 
 #endif
 /*
