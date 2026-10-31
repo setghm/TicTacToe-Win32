@@ -23,12 +23,14 @@
 #define FLAGS_TEXT_DRAW		(DT_CENTER | DT_SINGLELINE | DT_VCENTER)
 
 #define SET_GAME_FONT(hwnd, size) \
-	SendMessage(hwnd, WM_SETFONT, (WPARAM) StylesGetFont(size), (LPARAM) TRUE);
+	SendMessage(hwnd, WM_SETFONT, (WPARAM) StylesFontGet(size), (LPARAM) TRUE);
 
-void StylesInit(void);
-HFONT StylesGetFont(int size);
-void StylesCleanup(void);
+void StylesFontInit(void);
+HFONT StylesFontGet(int size);
+void StylesFontCleanup(void);
 
 DWORD StylesDrawControls(LPNMCUSTOMDRAW nmcd);
+
+void StylesCustomizeTitleBar(HWND hWnd);
 
 #endif

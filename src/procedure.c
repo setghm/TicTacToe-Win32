@@ -120,7 +120,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,
 
     switch (uMsg) {
         case WM_CREATE: {
-			StylesInit();
+			StylesFontInit();
 			
             hInstance = ((LPCREATESTRUCT)lParam)->hInstance;
             if (!CreateWindowUI(hWnd, hInstance)) {
@@ -168,7 +168,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,
 			return (LRESULT) CreateSolidBrush(COLOR_BG);
 		}
         case WM_DESTROY: {
-			StylesCleanup();
+			StylesFontCleanup();
             PostQuitMessage(0);
             break;
 		}

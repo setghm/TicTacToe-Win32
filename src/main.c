@@ -61,6 +61,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
         exit(EXIT_FAILURE);
     }
 
+    /* Apply a custom color to title bar (Windows 10 and Windows 11 only) */
+    StylesCustomizeTitleBar(hWnd);
+
     /* Show main window and update it */
     ShowWindow(hWnd, SW_SHOW);
     UpdateWindow(hWnd);

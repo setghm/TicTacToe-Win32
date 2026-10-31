@@ -15,7 +15,7 @@ static struct {
 
 static int fontCacheLength = 0;
 
-void StylesInit(void) {
+void StylesFontInit(void) {
 	HINSTANCE hInstance = GetModuleHandle(NULL);
 	HRSRC hRes = FindResource(hInstance, MAKEINTRESOURCE(IDR_FONT_GAME), RT_RCDATA);
 	if (!hRes) return;
@@ -31,7 +31,7 @@ void StylesInit(void) {
 	hFontResource = AddFontMemResourceEx(data, size, NULL, &fontsInstalled);
 }
 
-HFONT StylesGetFont(int size) {
+HFONT StylesFontGet(int size) {
 	for (int i = 0; i < fontCacheLength; i++) {
 		if (fontCache[i].size == size) {
 			return fontCache[i].hFont;
@@ -63,7 +63,7 @@ HFONT StylesGetFont(int size) {
 	return hFont;
 }
 
-void StylesCleanup(void) {
+void StylesFontCleanup(void) {
 	for (int i = 0; i < fontCacheLength; i++) {
 		DeleteObject(fontCache[i].hFont);
 	}
@@ -137,4 +137,18 @@ DWORD StylesDrawControls(LPNMCUSTOMDRAW nmcd) {
 	}
 	
 	return CDRF_DODEFAULT;
+}
+
+void StylesCustomizeTitleBar(HWND hWnd) {
+	if (!hWnd) return;
+
+	BOOL dark = TRUE;
+	COLORREF caption = COLOR_BG;
+	COLORREF text = COLOR_TEXT;
+	COLORREF border = COLOR_BG;
+
+	DwmSetWindowAttribute(hWnd, DWMA_USE_IMMERSIVE_DARK_MODE, &dark, sizeof(dark));
+	DwmSetWindowAttribute(hWnd, DWMA_CAPTION_COLOR, &caption, sizeof(caption));
+	DwmSetWindowAttribute(hWnd, DWMA_TEXT_COLOR, &text, sizeof(text));
+	DwmSetWindowAttribute(hWnd, DWMA_BORDER_COLOR, &border, sizeof(border));
 }

@@ -12,7 +12,7 @@ OBJECTDIR=$(BUILDDIR)\\obj
 CFLAGS=-Wall -Wextra
 LDFLAGS=-mwindows
 INC=-I$(RESDIR)
-LIB=-luser32 -lgdi32 -lkernel32 -lcomctl32
+LIB=-luser32 -lgdi32 -lkernel32 -lcomctl32 -ldwmapi
 
 SOURCES=$(wildcard $(SRCDIR)/*.c)
 OBJECTS=$(patsubst $(SRCDIR)/%.c,$(OBJECTDIR)/%.o,$(SOURCES))
