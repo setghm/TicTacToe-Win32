@@ -1,5 +1,7 @@
 # IDE files and backup files.
 .vscode/
+.idea/
+.vs/
 **.kate-swp
 **.un~
 
