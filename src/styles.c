@@ -3,33 +3,76 @@
 #include "game.h"
 #include "styles.h"
 
+#define FONT_FACE "Soup of Justice"
+#define FONT_CACHE_LIMIT 16
+
+static HANDLE hFontResource = NULL;
+
+static struct {
+	int size;
+	HFONT hFont;
+} fontCache[FONT_CACHE_LIMIT];
+
+static int fontCacheLength = 0;
+
 void StylesInit(void) {
-	AddFontResource("GameFont.ttf");
+	HINSTANCE hInstance = GetModuleHandle(NULL);
+	HRSRC hRes = FindResource(hInstance, MAKEINTRESOURCE(IDR_FONT_GAME), RT_RCDATA);
+	if (!hRes) return;
+
+	HGLOBAL hMem = LoadResource(hInstance, hRes);
+	if (!hMem) return;
+
+	void *data = LockResource(hMem);
+	DWORD size = SizeofResource(hInstance, hRes);
+	if (!data || !size) return;
+
+	DWORD fontsInstalled = 0;
+	hFontResource = AddFontMemResourceEx(data, size, NULL, &fontsInstalled);
 }
 
 HFONT StylesGetFont(int size) {
-	HFONT hGameFont;
-	int lfWidth, lfHeight;
+	for (int i = 0; i < fontCacheLength; i++) {
+		if (fontCache[i].size == size) {
+			return fontCache[i].hFont;
+		}
+	}
 
-	lfWidth = 0;
-	lfHeight = -MulDiv(size, GetDeviceCaps(CreateCompatibleDC(NULL), LOGPIXELSY), 72);
-	
-	LOGFONT LogFont = {
-		lfHeight, lfWidth, 0, 0, FW_NORMAL,
-		FALSE, FALSE, FALSE, ANSI_CHARSET,
-		OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS,
-		CLEARTYPE_QUALITY, VARIABLE_PITCH | FF_SWISS,
-		"Soup of Justice"
-	};
-	
-	hGameFont = CreateFontIndirect(&LogFont);
-	
-	return hGameFont;
+	HDC hdc = GetDC(NULL);
+	int lfHeight = -MulDiv(size, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+	ReleaseDC(NULL, hdc);
+
+	LOGFONT lf = {0};
+	lf.lfHeight = lfHeight;
+	lf.lfWeight = FW_NORMAL;
+	lf.lfCharSet = ANSI_CHARSET;
+	lf.lfOutPrecision = OUT_TT_PRECIS;
+	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+	lf.lfQuality = CLEARTYPE_QUALITY;
+	lf.lfPitchAndFamily = VARIABLE_PITCH | FF_SWISS;
+	lstrcpy(lf.lfFaceName, FONT_FACE);
+
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	if (hFont && fontCacheLength < FONT_CACHE_LIMIT) {
+		fontCache[fontCacheLength].size = size;
+		fontCache[fontCacheLength].hFont = hFont;
+		fontCacheLength++;
+	}
+
+	return hFont;
 }
 
 void StylesCleanup(void) {
-	//RemoveFontMemResourceEx(hFont);
-	RemoveFontResource("GameFont.ttf");
+	for (int i = 0; i < fontCacheLength; i++) {
+		DeleteObject(fontCache[i].hFont);
+	}
+	fontCacheLength = 0;
+
+	if (hFontResource) {
+		RemoveFontMemResourceEx(hFontResource);
+		hFontResource = NULL;
+	}
 }
 
 DWORD StylesDrawControls(LPNMCUSTOMDRAW nmcd) {
@@ -44,12 +87,12 @@ DWORD StylesDrawControls(LPNMCUSTOMDRAW nmcd) {
 		pen = CreatePen(PS_NULL, 0, 0);
 		
 		switch (GetCellState(nmcd->hdr.idFrom)) {
-			case PLAYER_ONE: {
+			case PLAYER_TURN_ONE: {
 				SetTextColor(nmcd->hdc, COLOR_ACCENT_RED);
 				brush = CreateSolidBrush(COLOR_CELL_RED);
 				break;
 			}
-			case PLAYER_TWO: {
+			case PLAYER_TURN_TWO: {
 				SetTextColor(nmcd->hdc, COLOR_ACCENT_BLUE);
 				brush = CreateSolidBrush(COLOR_CELL_BLUE);
 				break;

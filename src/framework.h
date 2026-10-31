@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define APPNAME     "Tic Tac Toe"
+#define APPNAME     "Tic-Tac-Toe"
 #define WINSTYLE    (WS_OVERLAPPEDWINDOW ^ (WS_THICKFRAME | WS_MAXIMIZEBOX))
 #define WINWIDTH    400
 #define WINHEIGHT   400
@@ -17,8 +17,9 @@
 #define WIDTH(rc) (rc.right - rc.left)
 #define HEIGHT(rc) (rc.bottom - rc.top)
 
-typedef enum _PLAYER_NUM {
-    PLAYER_ONE = -1, PLAYER_TWO = 1
-} PLAYER_NUM;
+typedef enum {
+    PLAYER_TURN_ONE = -1,
+    PLAYER_TURN_TWO = 1
+} PlayerTurn;
 
 #endif

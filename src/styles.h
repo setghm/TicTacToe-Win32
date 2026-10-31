@@ -22,11 +22,8 @@
 #define SIZE_BORDER_RADIUS	12
 #define FLAGS_TEXT_DRAW		(DT_CENTER | DT_SINGLELINE | DT_VCENTER)
 
-#define SET_FONT(hwnd, size) \
-	SendMessage(hwnd, \
-				WM_SETFONT, \
-				(WPARAM) StylesGetFont(size), \
-				(LPARAM) TRUE);
+#define SET_GAME_FONT(hwnd, size) \
+	SendMessage(hwnd, WM_SETFONT, (WPARAM) StylesGetFont(size), (LPARAM) TRUE);
 
 void StylesInit(void);
 HFONT StylesGetFont(int size);

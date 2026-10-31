@@ -30,7 +30,7 @@ BOOL UICreatePlayerCounter(HWND hWnd,
         return FALSE;
     }
 	
-	SET_FONT(GetDlgItem(hWnd, (UI_LABELP1 + (number - 1))), 14);
+	SET_GAME_FONT(GetDlgItem(hWnd, (UI_LABELP1 + (number - 1))), 14);
 
     /* Create the score counter */
     if (CreateWindow(
@@ -47,7 +47,7 @@ BOOL UICreatePlayerCounter(HWND hWnd,
         return FALSE;
     }
 	
-	SET_FONT(GetDlgItem(hWnd, (UI_COUNTERP1 + (number - 1))), 16);
+	SET_GAME_FONT(GetDlgItem(hWnd, (UI_COUNTERP1 + (number - 1))), 16);
 
     return TRUE;
 }
@@ -85,7 +85,7 @@ BOOL CreateWindowUI(HWND hWnd, HINSTANCE hInstance) {
                 return FALSE;
             }
 			
-			SET_FONT(GetDlgItem(hWnd, (UI_CELL + cx + (3 * cy))), 36);
+			SET_GAME_FONT(GetDlgItem(hWnd, (UI_CELL + cx + (3 * cy))), 36);
 			
         }
         y += cellwh + cellpa;
@@ -106,7 +106,7 @@ BOOL CreateWindowUI(HWND hWnd, HINSTANCE hInstance) {
         return FALSE;
     }
 	
-	SET_FONT(GetDlgItem(hWnd, UI_STATUSBAR), 18);
+	SET_GAME_FONT(GetDlgItem(hWnd, UI_STATUSBAR), 18);
 
     return TRUE;
 }

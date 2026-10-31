@@ -2,25 +2,25 @@
 #include "resource.h"
 #include "game.h"
 
-short gameBoard[] = {
+static short gameBoard[] = {
     0, 0, 0,
     0, 0, 0,
     0, 0, 0
 };
 
-struct {
+static struct {
     unsigned int player1;
     unsigned int player2;
 } score;
 
-PLAYER_NUM player;
+static PlayerTurn player;
 
-unsigned short available = 0;
+static unsigned short available = 0;
 
 void InitGame(void) {
     score.player1 = 0;
     score.player2 = 0;
-    player = PLAYER_ONE;
+    player = PLAYER_TURN_ONE;
 }
 
 void StartNewGame(HWND parent) {
@@ -34,7 +34,7 @@ void CheckInput(DWORD id) {
     if (id >= UI_CELL && id < UI_STATUSBAR) {
         if (gameBoard[id - UI_CELL] == 0) {
             gameBoard[id - UI_CELL] = player;
-            player = (player == PLAYER_ONE) ? PLAYER_TWO : PLAYER_ONE;
+            player = (player == PLAYER_TURN_ONE) ? PLAYER_TURN_TWO : PLAYER_TURN_ONE;
             available--;
         }
     }
@@ -55,7 +55,7 @@ void UpdateBoard(HWND parent) {
         }
     }
 
-    if (player == PLAYER_ONE) {
+    if (player == PLAYER_TURN_ONE) {
         SetDlgItemText(parent, UI_STATUSBAR, "red turn");
     } else {
         SetDlgItemText(parent, UI_STATUSBAR, "blue turn");
