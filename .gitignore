@@ -1,3 +1,10 @@
+# IDE files and backup files.
+.vscode/
+**.kate-swp
+**.un~
+
 # Generated files.
-*.o
-*.exe
+build/
+out/
+obj/
+dist/

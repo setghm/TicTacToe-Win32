@@ -30,7 +30,7 @@
 
 void StylesInit(void);
 HFONT StylesGetFont(int size);
-void StylesRelease(void);
+void StylesCleanup(void);
 
 DWORD StylesDrawControls(LPNMCUSTOMDRAW nmcd);
 

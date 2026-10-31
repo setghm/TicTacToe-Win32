@@ -27,7 +27,7 @@ HFONT StylesGetFont(int size) {
 	return hGameFont;
 }
 
-void StylesRelease(void) {
+void StylesCleanup(void) {
 	//RemoveFontMemResourceEx(hFont);
 	RemoveFontResource("GameFont.ttf");
 }

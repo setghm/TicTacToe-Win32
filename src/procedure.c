@@ -143,6 +143,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,
 			if (nmhdr->code & NM_CUSTOMDRAW) {
 				return StylesDrawControls((LPNMCUSTOMDRAW)nmhdr);
 			}
+            break;
 		}
 		case WM_CTLCOLORSTATIC: {
 			HDC hdcStatic = (HDC) wParam;
@@ -167,7 +168,7 @@ LRESULT CALLBACK WinProc(HWND hWnd,
 			return (LRESULT) CreateSolidBrush(COLOR_BG);
 		}
         case WM_DESTROY: {
-			StylesRelease();
+			StylesCleanup();
             PostQuitMessage(0);
             break;
 		}

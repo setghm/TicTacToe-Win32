@@ -3,7 +3,7 @@
 
 1	24	"manifest.xml"
 
-RES_FONT	FONT	"GameFont.ttf"
+IDR_FONT_GAME	RCDATA	"GameFont.ttf"
 
 1 VERSIONINFO
 FILEVERSION 1,0,0,0
@@ -13,27 +13,27 @@ FILETYPE VFT_APP
 BEGIN
 	BLOCK "StringFileInfo"
 	BEGIN
-		// Inglés de EE. UU.
+		// English (United States)
 		// LangID (0409) - Charset ID (Hexadecimal) (04E4)
 		BLOCK "040904E4"
 		BEGIN
-			VALUE "CompanyName", "SetApps\0"
+			VALUE "CompanyName", "setghm\0"
 			VALUE "FileDescription", "Tic-Tac-Toe game made using the Win32 API\0"
-			VALUE "FileVersion", "1.0\0"
-			VALUE "LegalCopyright", "SetApps (c) 2023\0"
-			VALUE "ProductName", "Tic-Tac-Toe\0"
-			VALUE "ProductVersion", "1.0\0"
+			VALUE "FileVersion", "1.0.1\0"
+			VALUE "LegalCopyright", "setghm (c) 2026\0"
+			VALUE "ProductName", "Tic-Tac-Toe Win32\0"
+			VALUE "ProductVersion", "1.0.0\0"
 		END
 		// Español (México)
 		// LangID (080A) - Charset ID (Hexadecimal) (04E4)
 		BLOCK "080A04E4"
 		BEGIN
-			VALUE "CompanyName", "SetApps\0"
+			VALUE "CompanyName", "setghm\0"
 			VALUE "FileDescription", "Juego de Tic-Tac-Toe hecho con la API de Windows\0"
-			VALUE "FileVersion", "1.0\0"
-			VALUE "LegalCopyright", "SetApps (c) 2023\0"
-			VALUE "ProductName", "Tic-Tac-Toe\0"
-			VALUE "ProductVersion", "1.0\0"
+			VALUE "FileVersion", "1.0.1\0"
+			VALUE "LegalCopyright", "setghm (c) 2026\0"
+			VALUE "ProductName", "Tic-Tac-Toe Win32\0"
+			VALUE "ProductVersion", "1.0.0\0"
 		END
 	END
 	

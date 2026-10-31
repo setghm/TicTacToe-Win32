@@ -4,9 +4,9 @@
 	<assemblyIdentity
 		version="1.0.0.0"
 		processorArchitecture="*"
-		name="SetApps.Game.TicTacToe"
+		name="setghm.Game.TicTacToeWin32"
 		type="win32" />
-	<description>Tic tac toe game made with Win32 API and C.</description>
+	<description>Tic-tac-toe game made with Win32 API and C.</description>
 	<dependency>
 		<dependentAssembly>
 			<assemblyIdentity
