@@ -1,5 +1,5 @@
 #include "framework.h"
-#include "resource.h"
+#include "ui.h"
 #include "game.h"
 
 static short gameBoard[] = {
@@ -17,20 +17,20 @@ static PlayerTurn player;
 
 static unsigned short available = 0;
 
-void InitGame(void) {
+void GameInit(void) {
     score.player1 = 0;
     score.player2 = 0;
     player = PLAYER_TURN_ONE;
 }
 
-void StartNewGame(HWND parent) {
+void GameStartNew(HWND parent) {
     memset(gameBoard, 0, 9 * sizeof(short));
     available = 9;
 
-    UpdateBoard(parent);
+    GameBoardUpdate(parent);
 }
 
-void CheckInput(DWORD id) {
+void GameInputCheck(DWORD id) {
     if (id >= UI_CELL && id < UI_STATUSBAR) {
         if (gameBoard[id - UI_CELL] == 0) {
             gameBoard[id - UI_CELL] = player;
@@ -40,7 +40,7 @@ void CheckInput(DWORD id) {
     }
 }
 
-void UpdateBoard(HWND parent) {
+void GameBoardUpdate(HWND parent) {
 
     for (int i=0; i<9; i++) {
         switch (gameBoard[i]) {
@@ -62,7 +62,7 @@ void UpdateBoard(HWND parent) {
     }
 }
 
-void LookForWinner(HWND parent) {
+void GameWinnerCheck(HWND parent) {
     // -3 => Red wins, 3 => Blue wins
     signed int add, line, k;
     
@@ -80,9 +80,9 @@ void LookForWinner(HWND parent) {
     }
 
     if (line == 3 || line == -3) {
-        UpdateScore(parent, line);
+        GameScoreUpdate(parent, line);
     } else {
-        UpdateScore(parent, add);
+        GameScoreUpdate(parent, add);
     }
 
     line = 0;
@@ -101,19 +101,19 @@ void LookForWinner(HWND parent) {
     }
 
     if (line == 3 || line == -3) {
-        UpdateScore(parent, line);
+        GameScoreUpdate(parent, line);
     } else {
-        UpdateScore(parent, add);
+        GameScoreUpdate(parent, add);
     }
 
     if (available == 0) {
         SetDlgItemText(parent, UI_STATUSBAR, "NO WINNER");
         Sleep(1000);
-        StartNewGame(parent);
+        GameStartNew(parent);
     }
 }
 
-void UpdateScore(HWND parent, int add) {
+void GameScoreUpdate(HWND parent, int add) {
     char sscore[512];
     BOOL winner = FALSE;
     
@@ -139,11 +139,11 @@ void UpdateScore(HWND parent, int add) {
 
     if (winner) {
         Sleep(1000);
-        StartNewGame(parent);
+        GameStartNew(parent);
     }
 }
 
-int GetCellState(int id) {
+int GameCellGetState(int id) {
 	if ((id - UI_CELL) >= 0 && (id - UI_CELL) < 9) {
 		return gameBoard[id - UI_CELL];
 	}

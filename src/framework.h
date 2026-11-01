@@ -32,6 +32,7 @@
 
 #define WIDTH(rc) (rc.right - rc.left)
 #define HEIGHT(rc) (rc.bottom - rc.top)
+#define S(dpi, x) MulDiv((x), (dpi), 96)
 
 typedef enum {
     PLAYER_TURN_ONE = -1,

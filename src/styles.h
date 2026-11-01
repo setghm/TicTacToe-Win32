@@ -22,15 +22,11 @@
 #define SIZE_BORDER_RADIUS	12
 #define FLAGS_TEXT_DRAW		(DT_CENTER | DT_SINGLELINE | DT_VCENTER)
 
-#define SET_GAME_FONT(hwnd, size) \
-	SendMessage(hwnd, WM_SETFONT, (WPARAM) StylesFontGet(size), (LPARAM) TRUE);
-
 void StylesFontInit(void);
-HFONT StylesFontGet(int size);
 void StylesFontCleanup(void);
+HFONT StylesFontGet(UINT dpi, int size);
+void StylesFontSet(HWND hwnd, UINT dpi, int size);
 
-DWORD StylesDrawControls(LPNMCUSTOMDRAW nmcd);
-
-void StylesCustomizeTitleBar(HWND hWnd);
+void StylesCustomizeTitleBar(HWND hwnd);
 
 #endif

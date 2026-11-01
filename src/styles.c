@@ -10,6 +10,7 @@ static HANDLE hFontResource = NULL;
 
 static struct {
 	int size;
+	UINT dpi;
 	HFONT hFont;
 } fontCache[FONT_CACHE_LIMIT];
 
@@ -31,38 +32,6 @@ void StylesFontInit(void) {
 	hFontResource = AddFontMemResourceEx(data, size, NULL, &fontsInstalled);
 }
 
-HFONT StylesFontGet(int size) {
-	for (int i = 0; i < fontCacheLength; i++) {
-		if (fontCache[i].size == size) {
-			return fontCache[i].hFont;
-		}
-	}
-
-	HDC hdc = GetDC(NULL);
-	int lfHeight = -MulDiv(size, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-	ReleaseDC(NULL, hdc);
-
-	LOGFONT lf = {0};
-	lf.lfHeight = lfHeight;
-	lf.lfWeight = FW_NORMAL;
-	lf.lfCharSet = ANSI_CHARSET;
-	lf.lfOutPrecision = OUT_TT_PRECIS;
-	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-	lf.lfQuality = CLEARTYPE_QUALITY;
-	lf.lfPitchAndFamily = VARIABLE_PITCH | FF_SWISS;
-	lstrcpy(lf.lfFaceName, FONT_FACE);
-
-	HFONT hFont = CreateFontIndirect(&lf);
-
-	if (hFont && fontCacheLength < FONT_CACHE_LIMIT) {
-		fontCache[fontCacheLength].size = size;
-		fontCache[fontCacheLength].hFont = hFont;
-		fontCacheLength++;
-	}
-
-	return hFont;
-}
-
 void StylesFontCleanup(void) {
 	for (int i = 0; i < fontCacheLength; i++) {
 		DeleteObject(fontCache[i].hFont);
@@ -75,80 +44,49 @@ void StylesFontCleanup(void) {
 	}
 }
 
-DWORD StylesDrawControls(LPNMCUSTOMDRAW nmcd) {
-	HPEN pen;
-	HBRUSH brush;
-	char szWndText[50];
-	int nTextLength;
-	
-	if (nmcd->hdr.idFrom >= UI_CELL &&
-		nmcd->hdr.idFrom < UI_STATUSBAR) {
-		
-		pen = CreatePen(PS_NULL, 0, 0);
-		
-		switch (GetCellState(nmcd->hdr.idFrom)) {
-			case PLAYER_TURN_ONE: {
-				SetTextColor(nmcd->hdc, COLOR_ACCENT_RED);
-				brush = CreateSolidBrush(COLOR_CELL_RED);
-				break;
-			}
-			case PLAYER_TURN_TWO: {
-				SetTextColor(nmcd->hdc, COLOR_ACCENT_BLUE);
-				brush = CreateSolidBrush(COLOR_CELL_BLUE);
-				break;
-			}
-			default: {
-				if (nmcd->uItemState & CDIS_SELECTED) {
-					brush = CreateSolidBrush(COLOR_CELL_ACTIVE);
-				}
-				else if (nmcd->uItemState & CDIS_HOT) {
-					brush = CreateSolidBrush(COLOR_CELL_HOVER);
-				} else {
-					brush = CreateSolidBrush(COLOR_CELL_NORMAL);
-				}
-			}
+HFONT StylesFontGet(UINT dpi, int size) {
+	for (int i = 0; i < fontCacheLength; i++) {
+		if (fontCache[i].size == size && fontCache[i].dpi == dpi) {
+			return fontCache[i].hFont;
 		}
-		
-		SelectObject(nmcd->hdc, pen);
-		SelectObject(nmcd->hdc, brush);
-		RoundRect(nmcd->hdc,
-				  0, 0,
-				  WIDTH(nmcd->rc),
-				  HEIGHT(nmcd->rc),
-				  SIZE_BORDER_RADIUS,
-				  SIZE_BORDER_RADIUS);
-		
-		DeleteObject(pen);
-		DeleteObject(brush);
-
-		SetBkMode(nmcd->hdc, TRANSPARENT);		
-		nTextLength = GetWindowText(nmcd->hdr.hwndFrom,
-									szWndText,
-									50);
-		if (nTextLength > 0) {
-			DrawText(nmcd->hdc,
-					 szWndText,
-					 nTextLength,
-					 &nmcd->rc,
-					 FLAGS_TEXT_DRAW);
-		}
-		
-		return CDRF_SKIPDEFAULT;
 	}
-	
-	return CDRF_DODEFAULT;
+
+	LOGFONT lf = {0};
+	lf.lfHeight = -MulDiv(size, dpi, 72);
+	lf.lfWeight = FW_NORMAL;
+	lf.lfCharSet = ANSI_CHARSET;
+	lf.lfOutPrecision = OUT_TT_PRECIS;
+	lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
+	lf.lfQuality = CLEARTYPE_QUALITY;
+	lf.lfPitchAndFamily = VARIABLE_PITCH | FF_SWISS;
+	lstrcpy(lf.lfFaceName, FONT_FACE);
+
+	HFONT hFont = CreateFontIndirect(&lf);
+
+	if (hFont && fontCacheLength < FONT_CACHE_LIMIT) {
+		fontCache[fontCacheLength].size = size;
+		fontCache[fontCacheLength].dpi = dpi;
+		fontCache[fontCacheLength].hFont = hFont;
+		fontCacheLength++;
+	}
+
+	return hFont;
 }
 
-void StylesCustomizeTitleBar(HWND hWnd) {
-	if (!hWnd) return;
+void StylesFontSet(HWND hwnd, UINT dpi, int size) {
+	SendMessage(hwnd, WM_SETFONT, (WPARAM) StylesFontGet(dpi, size), (LPARAM) TRUE);
+}
+
+void StylesCustomizeTitleBar(HWND hwnd) {
+	if (!hwnd) return;
 
 	BOOL dark = TRUE;
 	COLORREF caption = COLOR_BG;
 	COLORREF text = COLOR_TEXT;
 	COLORREF border = COLOR_BG;
 
-	DwmSetWindowAttribute(hWnd, DWMA_USE_IMMERSIVE_DARK_MODE, &dark, sizeof(dark));
-	DwmSetWindowAttribute(hWnd, DWMA_CAPTION_COLOR, &caption, sizeof(caption));
-	DwmSetWindowAttribute(hWnd, DWMA_TEXT_COLOR, &text, sizeof(text));
-	DwmSetWindowAttribute(hWnd, DWMA_BORDER_COLOR, &border, sizeof(border));
+	DwmSetWindowAttribute(hwnd, DWMA_USE_IMMERSIVE_DARK_MODE, &dark, sizeof(dark));
+	DwmSetWindowAttribute(hwnd, DWMA_CAPTION_COLOR, &caption, sizeof(caption));
+	DwmSetWindowAttribute(hwnd, DWMA_TEXT_COLOR, &text, sizeof(text));
+	DwmSetWindowAttribute(hwnd, DWMA_BORDER_COLOR, &border, sizeof(border));
 }

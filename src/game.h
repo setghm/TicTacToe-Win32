@@ -3,13 +3,13 @@
 
 #include "framework.h"
 
-void InitGame(void);
-void StartNewGame(HWND parent);
-void CheckInput(DWORD id);
-void UpdateBoard(HWND parent);
-void LookForWinner(HWND parent);
-void UpdateScore(HWND parent, int add);
+void GameInit(void);
+void GameStartNew(HWND parent);
+void GameInputCheck(DWORD id);
+void GameBoardUpdate(HWND parent);
+void GameWinnerCheck(HWND parent);
+void GameScoreUpdate(HWND parent, int add);
 
-int GetCellState(int id);
+int GameCellGetState(int id);
 
 #endif
