@@ -9,6 +9,9 @@ The game looks like this:
 ## Third party
 
 `res/GameFont.ttf`
+
 **Font Family**: Soup of justice
+
 **Author**: Omen Type
+
 **Upstream URL**: https://www.dafont.com/soup-of-justice.font

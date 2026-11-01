@@ -89,7 +89,9 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
             break;
 		}
 		case WM_CTLCOLORSTATIC: {
-			return (LRESULT) UIColorTextControls((HDC) wParam);
+            HDC hdcStatic = (HDC) wParam;
+            int controlId = GetDlgCtrlID((HWND)lParam);
+			return (LRESULT) UIColorTextControls(controlId, hdcStatic);
 		}
 		case WM_CTLCOLORBTN: {
 			return (LRESULT) UIColorButtonControls();

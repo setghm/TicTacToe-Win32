@@ -15,7 +15,7 @@ void UICreatePlayerCounter(HWND hwnd, HINSTANCE hInstance, PlayerTurn player);
 
 void UILayoutControls(HWND hwnd, UINT dpi);
 
-HBRUSH UIColorTextControls(HWND hwnd, HDC hdcStatic);
+HBRUSH UIColorTextControls(int controlId, HDC hdcStatic);
 HBRUSH UIColorButtonControls(void);
 
 DWORD UICustomDraw(LPNMCUSTOMDRAW nmcd, int dpi);

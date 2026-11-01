@@ -105,8 +105,8 @@ void UILayoutControls(HWND hwnd, UINT dpi) {
 /*                                 Color logic                                */
 /* -------------------------------------------------------------------------- */
 
-HBRUSH UIColorTextControls(HWND hwnd, HDC hdcStatic) {
-    switch (GetDlgCtrlID(hwnd)) {
+HBRUSH UIColorTextControls(int controlId, HDC hdcStatic) {
+    switch (controlId) {
         case UI_LABELP1:
         case UI_COUNTERP1:
             SetTextColor(hdcStatic, COLOR_TEXT_RED);
