@@ -204,7 +204,7 @@ void UIReshapeWindow(HWND hWindow, const RECT *rc) {
         SWP_NOZORDER | SWP_NOACTIVATE);
 }
 
-void UIInitWindowSize(HWND hwnd, UINT dpi) {
+void UIInitWindow(HWND hwnd, UINT dpi) {
     RECT rc = { 0, 0, S(dpi, WINWIDTH), S(dpi, WINHEIGHT) };
 
     DWORD style = (DWORD) GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -212,10 +212,13 @@ void UIInitWindowSize(HWND hwnd, UINT dpi) {
     
     AdjustWindowRectExForDpi(&rc, style, FALSE, exStyle, dpi);
 
-    SetWindowPos(hwnd, NULL,
-        rc.left,
-        rc.top,
-        rc.right - rc.left,
-        rc.bottom - rc.top,
-        SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE);
+    MONITORINFO mi = { sizeof(mi) };
+    GetMonitorInfo(MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST), &mi);
+
+    int w = WIDTH(rc);
+    int h = HEIGHT(rc);
+    int x = mi.rcWork.left + (WIDTH(mi.rcWork) - w) / 2;
+    int y = mi.rcWork.top + (HEIGHT(mi.rcWork) - h) / 2;
+
+    SetWindowPos(hwnd, NULL, x, y, w, h, SWP_NOZORDER | SWP_NOACTIVATE);
 }

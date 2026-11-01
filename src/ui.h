@@ -21,6 +21,6 @@ HBRUSH UIColorButtonControls(void);
 DWORD UICustomDraw(LPNMCUSTOMDRAW nmcd, int dpi);
 
 void UIReshapeWindow(HWND hwnd, const RECT *rc);
-void UIInitWindowSize(HWND hwnd, UINT dpi);
+void UIInitWindow(HWND hwnd, UINT dpi);
 
 #endif // UI_H

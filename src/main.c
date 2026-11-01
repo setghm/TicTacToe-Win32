@@ -67,7 +67,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 			StylesFontInit();
 			
-            UIInitWindowSize(hwnd, dpi);
+            UIInitWindow(hwnd, dpi);
             UICreateControls(hwnd, hInstance);
             UILayoutControls(hwnd, dpi);
 
