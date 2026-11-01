@@ -165,13 +165,13 @@ DWORD UICustomDraw(LPNMCUSTOMDRAW nmcd, int dpi) {
 				}
 			}
 		}
-		
+
 		SelectObject(nmcd->hdc, pen);
 		SelectObject(nmcd->hdc, brush);
 		RoundRect(nmcd->hdc,
             0, 0,
-            S(dpi, WIDTH(nmcd->rc)),
-            S(dpi, HEIGHT(nmcd->rc)),
+            WIDTH(nmcd->rc),    // Already scaled
+            HEIGHT(nmcd->rc),   // Already scaled
             S(dpi, SIZE_BORDER_RADIUS),
             S(dpi, SIZE_BORDER_RADIUS));
 		
