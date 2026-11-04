@@ -11,7 +11,7 @@
         ProcessorArchitecture="x64" />
 
     <Properties>
-        <DisplayName>Tic-Tac-Toe</DisplayName>
+        <DisplayName>Mini Tic-Tac-Toe</DisplayName>
         <PublisherDisplayName>setghm</PublisherDisplayName>
         <Logo>Assets\StoreLogo.png</Logo>
     </Properties>
