@@ -4,6 +4,10 @@ Classic Tic-Tac-Toe game. Win32 application.
 
 Two players needed.
 
+<a href="https://get.microsoft.com/installer/download/9P3XD6G9DV34?referrer=appbadge" target="_self" >
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
+
 ## Game preview
 
 ![Screenshot 2025-01-24 122133](https://github.com/user-attachments/assets/275a1490-89b8-43ba-9a1b-bffc250d523f)
